@@ -23,41 +23,78 @@ STEP-5: Read the characters row wise or column wise in the former order to get t
 
 # PROGRAM
 ```
- #include <stdio.h>
- #include <string.h>
- #include <ctype.h>
- void encryptRailFence(char *message, int rails) {
- int len = strlen(message);
- char rail[rails][len];
- memset(rail, '\n', sizeof(rail));
- int row = 0, direction = 1;
- for (int i = 0; i < len; i++) {
- rail[row][i] = message[i];
- row += direction;
- if (row == rails- 1 | row == 0)
- direction =-direction;
- }
- printf("Encrypted text: ");
- for (int i = 0; i < rails; i++)
- for (int j = 0; j < len; j++)
- if (rail[i][j] != '\n')
- printf("%c", rail[i][j]);
- printf("\n");
- }
- int main() {
- char message[100];
- int rails;
- printf("Enter a Secret Message: ");
- scanf("%s", message);
- printf("Enter number of rails: ");
- scanf("%d", &rails);
- encryptRailFence(message, rails);
- return 0;
- }
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    int i, j, k, l;
+    char a[20], c[20], d[20];
+    
+    printf("\n\t\tRAIL FENCE TECHNIQUE\n");
+    
+    // Safely getting input string using fgets instead of gets
+    printf("\nEnter the input string: ");
+    fgets(a, sizeof(a), stdin);
+    
+    // Removing the newline character if it exists
+    a[strcspn(a, "\n")] = '\0';
+    l = strlen(a); // Get the length of the input string
+    
+    // Rail fence encryption: first collect even indices, then odd
+    j = 0;
+    // First pass: even indices (0, 2, 4, ...)
+    for (i = 0; i < l; i += 2)
+    {
+        c[j++] = a[i];
+    }
+    // Second pass: odd indices (1, 3, 5, ...)
+    for (i = 1; i < l; i += 2)
+    {
+        c[j++] = a[i];
+    }
+    c[j] = '\0'; // Null-terminate the encrypted string
+    
+    printf("\nCipher text after applying rail fence: %s\n", c);
+    
+    // Rail fence decryption
+    if (l % 2 == 0)
+    {
+        k = l / 2;
+    }
+    else
+    {
+        k = (l / 2) + 1;
+    }
+    
+    // Reconstructing the original text
+    j = 0;
+    // First half of ciphertext goes to even positions
+    for (i = 0; i < k; i++)
+    {
+        d[j] = c[i];
+        j += 2;
+    }
+    
+    j = 1;
+    // Second half of ciphertext goes to odd positions
+    for (i = k; i < l; i++)
+    {
+        d[j] = c[i];
+        j += 2;
+    }
+    d[l] = '\0'; // Null-terminate the decrypted string
+    
+    printf("\nText after decryption: %s\n", d);
+    
+       
+    return 0;
+}
 ```
 
+
 # OUTPUT
-<img width="508" height="271" alt="Screenshot 2025-09-03 090347" src="https://github.com/user-attachments/assets/0223566b-850a-462f-9b61-56445de09631" />
+<img width="510" height="329" alt="Screenshot 2025-10-30 102142" src="https://github.com/user-attachments/assets/2c79d79f-8816-4489-adf5-d2dd45d1c327" />
 
 # RESULT
 The program implementing the Rail Fence cipher for encryption and decryption has been successfully executed, and the results have been verified.
